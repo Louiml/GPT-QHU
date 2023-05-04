@@ -1,31 +1,29 @@
 name: Python Workflow
 
-on:
-  push:
-    branches:
-      - main
+on: push
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v1
         with:
           python-version: 3.8
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Start API
-        run: |
-          python gpt.py &
-          sleep 3
-      - name: Publish to GitHub Pages
+      - name: Run Python script
+        run: python3 gpt.py
+      - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.2
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
           FOLDER: .
           CLEAN: true
+        env:
+          pythonLocation: /opt/hostedtoolcache/Python/3.8.16/x64
+          LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.8.16/x64/lib
