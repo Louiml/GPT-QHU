@@ -1,28 +1,20 @@
-name: Python Workflow
+name: Self-hosted Runner Setup
 
-on: push
+on: [workflow_dispatch]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v1
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Download and configure runner
+      uses: actions/runner@v2
       with:
-        python-version: 3.8
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Run Python script in the background
-      run: nohup python3 gpt.py > api.log 2>&1 &
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@4.1.2
-      with:
-        TOKEN: ${{ secrets.mykey }}
-        BRANCH: gh-pages
-        FOLDER: .
-        CLEAN: true
+        version: '2.277.1' # version of the runner to download
+      env:
+        RUNNER_NAME: my-runner # name of the runner
+        RUNNER_TOKEN: ${{ secrets.RUNNER_TOKEN }} # access token for the runner
+        REPO_URL: https://github.com/funmmer/GPT-QHU # URL of the repository
+        ORG_RUNNER: false # set to true if the runner is for an organization repository
+        LABELS: my-runner-label # label for the runner
