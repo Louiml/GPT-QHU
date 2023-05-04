@@ -13,8 +13,8 @@ jobs:
       with:
         version: '2.277.1' # version of the runner to download
       env:
-        RUNNER_NAME: my-runner # name of the runner
+        RUNNER_NAME: DESKTOP-2656OM1 # name of the runner
         RUNNER_TOKEN: ${{ secrets.RUNNER_TOKEN }} # access token for the runner
         REPO_URL: https://github.com/funmmer/GPT-QHU # URL of the repository
         ORG_RUNNER: false # set to true if the runner is for an organization repository
-        LABELS: my-runner-label # label for the runner
+        LABELS: self-hosted, Windows, X64 # label for the runner
